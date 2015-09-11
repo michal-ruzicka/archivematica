@@ -22,6 +22,8 @@
 # @author Austin Trask <austin@artefactual.com>
 # @version svn: $Id$
 
-sudo chown -R archivematica:archivematica "$2"
+if [ $(stat -L --printf='%U:%G' "$2") != 'archivematica:archivematica' ]; then
+    sudo chown -R archivematica:archivematica "$2"
+fi
 touch "$2"
 chmod -R "$1" "$2"
