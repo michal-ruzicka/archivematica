@@ -28,7 +28,9 @@ set -e
 
 target="$1"
 if [ -e "${target}" ]; then
-	sudo chown -R archivematica:archivematica "${target}"  
+	if [ $(stat -L --printf='%U:%G' "${target}") != 'archivematica:archivematica' ]; then
+		sudo chown -R archivematica:archivematica "${target}"
+	fi
 	echo `basename "${target}"` owned by "archivematica:archivematica" now 
 	sudo chmod -R 660 "${target}"
 	sudo chmod 640 "${target}"
